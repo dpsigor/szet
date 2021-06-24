@@ -1,0 +1,2 @@
+#!/bin/sh
+pandoc "$MAIN_REPOS_PATH"/zet/$(cd "$MAIN_REPOS_PATH"/zet && rg -H "$1" | head -1 | { read asdf; echo ${asdf%%:*}; }) | lynx --stdin

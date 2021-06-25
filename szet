@@ -1,2 +1,7 @@
 #!/bin/sh
-pandoc "$MAIN_REPOS_PATH"/zet/$(cd "$MAIN_REPOS_PATH"/zet && rg -H "$1" | head -1 | { read foo; echo ${foo%%:*}; }) | lynx --stdin
+[ ! -n "$1" ] && echo "Usage: szet [query]" && return 1
+[ ! -d $MAIN_REPOS_PATH/zet ] && echo "mainrepospath/zet not found" && return 1
+query="$1"
+filename=$(cd "$MAIN_REPOS_PATH"/zet && rg -H $query | head -1 | { read foo; echo ${foo%%:*}; });
+[ -z ${filename## *} ] && echo "Nothing found for $query" && return 1
+pandoc "$MAIN_REPOS_PATH"/zet/"$filename" | lynx --stdin
